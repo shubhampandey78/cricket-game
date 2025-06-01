@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Cricket Game Project</title>
+        <style>
+            body{
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Bat Ball Stump Game</h1>
+        <button onClick="
+        let computerChoice = randomChoiceGeneration();
+        let result = checker('Bat', computerChoice);
+        displayResult('Bat', computerChoice, result);
+        ">Bat</button>
+
+        <button onClick="
+        computerChoice = randomChoiceGeneration();
+        result = checker('Ball', computerChoice);
+        displayResult('Ball', computerChoice, result);
+        ">Ball</button>
+
+        <button onClick="
+        computerChoice = randomChoiceGeneration();
+        result = checker('Stump', computerChoice);
+        displayResult('Stump', computerChoice, result);
+        ">Stump</button>
+
+        <script>
+
+            let score = {
+                win : 0,
+                lost : 0,
+                tie : 0,
+                displayScore : function(){
+                    return `Won: ${score.win} , Lost : ${score.lost}, Tie : ${score.tie}`
+                }
+            };
+
+            function randomChoiceGeneration(){
+                let randomNumber = Math.random() * 3;
+                if (randomNumber > 0 && randomNumber<=1){
+                    return 'Bat';
+                }else if(randomNumber > 1 && randomNumber<2){
+                    return 'Ball';
+                }else{
+                    return 'Stump';
+                } 
+            }
+            
+            function checker(userChoice, computerChoice){
+                if(userChoice==='Bat'){
+                    if(computerChoice ==='Bat'){
+                        score.tie++;
+                        return `It's a Tie`;
+                    }else if(computerChoice ==='Ball'){
+                        score.win++;
+                        return 'User Won';
+                    }else{
+                        score.lost++;
+                        return 'Computer Won';
+                    }
+                }else if(userChoice === 'Ball'){
+                    if(computerChoice === 'Ball'){
+                        score.tie++;
+                        return `It's a Tie`;                        
+                    }else if(computerChoice==='Bat'){
+                        score.lost++;
+                        return 'Computer Won';
+                    }else{
+                        score.win++;
+                        return 'User Won';
+                    }
+                }else{
+                    if(computerChoice === 'Stump'){
+                        score.tie++;
+                        return `It's a Tie` ;    
+                    }else if(computerChoice==='Ball'){
+                        score.lost++;
+                        return 'Computer Won' ;                       
+                    }else{
+                        score.win++;
+                        return 'User Won';                       
+                    }
+                }
+            }
+
+            function displayResult(userChoice, computerChoice,result){
+                localStorage.setItem('Score',JSON.stringify(score))
+                alert(`You have choosen ${userChoice} ,Computer Choice is ${computerChoice} 
+                
+                ${result}
+                
+                ${score.displayScore()} `);
+            }
+        </script>
+    </body>
+</html>
